@@ -1,14 +1,14 @@
 :root {
   font-family: "Urbanist", sans-serif;  
 
-  --bg-text-color-light: #eaeaea;
-  --bg-text-color-dark: #303030;
+  --bg-text-color-light: #f6e9da;
+  --bg-text-color-dark: #282015;
   --cont-dark-color: #202020;
-  --cont-light-color: #fafafa;
+  --cont-light-color: #f7efe6;
   --accent-color: #3232ff;
   --error-color: #ff3030;
   --confirm-color: #30ff30;
-  --accent-color: #BCEBC8;
+  --accent-color: #C7BCAF;
   --bg-color: var(--bg-text-color-light);
   --text-color: var(--bg-text-color-dark);
   --container-color: var(--cont-light-color);
