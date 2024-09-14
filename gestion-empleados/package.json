@@ -11,6 +11,7 @@
     "start": "json-server --watch db.json --port 3000"
   },
   "dependencies": {
+    "gestion-empleados": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"

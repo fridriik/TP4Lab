@@ -4,6 +4,7 @@ import { Login, Home, Empleado, EmpleadoData } from "../pages";
 import { PublicLayout, PrivateLayout } from "../layouts";
 
 const AppRouter = () => {
+
   return (
     <Router>
       <Routes>

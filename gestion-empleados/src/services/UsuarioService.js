@@ -1,17 +1,38 @@
-const API_URL = 'http://localhost:3000/usuarios';
+const API_URL = 'http://localhost:3000/auth';
 
-// Obtener un usuario por email y contraseña
 export const autenticarUsuario = async (email, password) => {
-    const response = await fetch(API_URL);
-    if (!response.ok) {
-        throw new Error('Error al obtener usuarios');
-    }
-    const users = await response.json();
-    const user = users.find(user => user.email === email && user.password === password);
+    try {        
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error('Error al obtener usuarios');
+        }
 
-    if (!user) {
-        throw new Error('Credenciales incorrectas');
+        const users = await response.json();
+        const user = users.find(user => user.email === email && user.password === password);
+
+        if (!user) {
+            throw new Error('Credenciales incorrectas');
+        }
+
+        localStorage.setItem('token', user.token);
+        return user;
+    } catch (error) {
+        console.error('Error during authentication:', error);
+        throw error;
     }
-    localStorage.setItem('token', user.token);
-    return user;
+};
+
+export const cerrarSesion = () => {
+    localStorage.removeItem('token');
+};
+
+export const obtenerTokenDelLocalStorage = () => {
+    const token = localStorage.getItem('token');
+    return token;
+};
+
+export const estaAutenticado = () => {
+    const token = obtenerTokenDelLocalStorage();
+    const isAuthenticated = !!token;
+    return isAuthenticated;
 };

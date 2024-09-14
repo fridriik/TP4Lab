@@ -1,24 +1,40 @@
-import { createContext, useState } from "react";
-import { autenticarUsuario } from "../services/UsuarioService";
+import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { obtenerTokenDelLocalStorage, autenticarUsuario } from "../services/UsuarioService";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem("token")
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = obtenerTokenDelLocalStorage();
+      if (token) {
+        setIsAuthenticated(true);
+      } else {
+        console.log('No hay token en localStorage.');
+      }
+      setLoading(false);
+    };
+    checkAuth();
+  }, []);
 
   const login = async (email, password) => {
     const user = await autenticarUsuario(email, password);
-    localStorage.setItem("token", user.token);
+    localStorage.setItem('token', user.token);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setIsAuthenticated(false);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

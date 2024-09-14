@@ -54,7 +54,7 @@ const Empleado = () => {
       return;
     }
 
-    const newId = empleados.length > 0 ? Math.max(...empleados.map(emp => parseInt(emp.id))) + 1 : 1;
+    const newId = empleados.length > 0 ? (Math.max(...empleados.map(emp => emp.id)) + 1).toString() : "1";
 
     try {
       const empleadoCreado = await addEmpleado({ ...newEmpleado, id: newId });

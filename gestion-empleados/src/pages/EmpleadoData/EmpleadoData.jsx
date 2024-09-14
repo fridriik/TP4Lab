@@ -23,7 +23,7 @@ const EmpleadoData = () => {
           console.error("Empleado no encontrado");
         }
       } catch (error) {
-        console.error(error);
+        console.error("Error buscando empleado:", error);
       }
     };
 
@@ -33,21 +33,21 @@ const EmpleadoData = () => {
   const handleUpdateEmpleado = async (e) => {
     e.preventDefault();
     try {
-      await updateEmpleado(id, empleado); // Actualiza el empleado
+      await updateEmpleado(id, empleado);
       alert("Empleado actualizado con éxito");
       setIsEditando(false);
     } catch (error) {
-      console.error(error);
+      console.error("Error actualizando empleado:", error);
     }
   };
 
   const handleDeleteEmpleado = async () => {
     try {
-      await deleteEmpleado(id); // Elimina el empleado
+      await deleteEmpleado(id);
       alert("Empleado eliminado con éxito");
-      navigate("/empleados"); // Redirige a la lista de empleados
+      navigate("/empleados"); 
     } catch (error) {
-      console.error(error);
+      console.error("Error eliminando empleado:", error);
     }
   };
 
@@ -56,7 +56,9 @@ const EmpleadoData = () => {
     setEmpleado((prev) => ({ ...prev, [name]: value }));
   };
 
-  if (!empleado) return <p>Loading...</p>;
+  if (!empleado) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className={styles.empleadodata}>

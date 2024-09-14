@@ -3,14 +3,25 @@ const API_URL = 'http://localhost:3000/empleados';
 // Obtener todos los empleados
 export const fetchEmpleado = async () => {
   const response = await fetch(API_URL);
-  if (!response.ok) throw new Error('Error al obtener empleados');
-  return response.json();
+  
+  
+  if (!response.ok) {
+    throw new Error('Error al obtener empleados');
+  }
+  
+  const data = await response.json();
+  return data;
 };
 
 // Obtener un empleado por ID
 export const fetchEmpleadoById = async (id) => {
   const response = await fetch(`${API_URL}?id=${Number(id)}`);
-  if (!response.ok) throw new Error('Error al obtener el empleado');
+  
+  
+  if (!response.ok) {
+    throw new Error('Error al obtener el empleado');
+  }
+  
   const data = await response.json();
   return data[0];
 };
@@ -24,27 +35,43 @@ export const addEmpleado = async (employee) => {
     },
     body: JSON.stringify(employee),
   });
-  if (!response.ok) throw new Error('Error al crear el empleado');
-  return response.json();
+    
+  if (!response.ok) {
+    console.error('Error creating employee');
+    throw new Error('Error al crear el empleado');
+  }
+  
+  const data = await response.json();
+  console.log('New employee created:', data);
+  return data;
 };
 
-// Actualizar un empleado existente
 export const updateEmpleado = async (id, updatedEmployee) => {
-  const response = await fetch(`${API_URL}/${Number(id)}`, {
+  const response = await fetch(`${API_URL}/${id}`, { // Elimina Number(id) si ya es un número
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(updatedEmployee),
   });
-  if (!response.ok) throw new Error('Error al actualizar el empleado');
-  return response.json();
+    
+  if (!response.ok) {
+    throw new Error('Error al actualizar el empleado');
+  }
+  
+  const data = await response.json();
+  console.log('Employee updated successfully:', data);
+  return data;
 };
 
 // Eliminar un empleado
-export const deleteEmpleado = async (id) => {
-  const response = await fetch(`${API_URL}/${Number(id)}`, {
+export const deleteEmpleado = async (id) => {  
+  const response = await fetch(`${API_URL}/${id}`, { // Elimina Number(id) si ya es un número
     method: 'DELETE',
   });
-  if (!response.ok) throw new Error('Error al eliminar el empleado');
+    
+  if (!response.ok) {
+    throw new Error('Error al eliminar el empleado');
+  }
+
 };
