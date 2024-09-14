@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import Input from './../../components/Input/Input';
+import styles from './Login.module.css';
+import Button from '../../components/Button/Button';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -26,24 +29,27 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <input
+    <div className={styles.container}>
+      <h1>LOGIN</h1>
+      <p>Bienvenido, ingresa tus credenciales por favor</p>
+      <form onSubmit={handleLogin} className={styles.form}>
+        <Input
           type="email"
+          name={email}
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
+        <Input
           type="password"
+          name={password}
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <Button type="submit">Entrar</Button>
       </form>
       {error && <p>{error}</p>}
     </div>

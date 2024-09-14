@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.main {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}

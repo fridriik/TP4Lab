@@ -10,6 +10,7 @@ const AppRouter = () => {
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Login />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<PrivateLayout />}>
@@ -18,7 +19,6 @@ const AppRouter = () => {
             <Route path="/empleados/:id" element={<EmpleadoData />} />
           </Route>
         </Route>
-        <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );

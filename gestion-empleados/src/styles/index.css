@@ -1,3 +1,50 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Urbanist", sans-serif;  
+
+  --bg-text-color-light: #eaeaea;
+  --bg-text-color-dark: #303030;
+  --cont-dark-color: #202020;
+  --cont-light-color: #fafafa;
+  --accent-color: #3232ff;
+  --error-color: #ff3030;
+  --confirm-color: #30ff30;
+  --accent-color: #BCEBC8;
+  --bg-color: var(--bg-text-color-light);
+  --text-color: var(--bg-text-color-dark);
+  --container-color: var(--cont-light-color);
+}
+
+h1 {
+  font-size: clamp(32px, 4vw, 48px); 
+  font-weight: 900;
+  margin: 0;
+}
+
+h2 {
+  font-size: clamp(24px, 3vw, 32px); 
+  font-weight: 900;
+}
+
+h3 {
+  font-size: clamp(16px, 2.5vw, 24px);
+  font-weight: 900;
+}
+
+h4 {
+  font-size: clamp(12px, 2vw, 16px);
+  font-weight: 900;
+}
+
+p, input, textarea {
+  font-size: clamp(16px, 1.5vw, 24px);
+}
+
+button{
+  font-size: clamp(16px, 1.5vw, 24px);
+  font-weight: 900;
+}
+
+
+body{
+  margin: 0;
 }
