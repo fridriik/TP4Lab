@@ -1,11 +1,9 @@
 "use client";
-import styles from './Home.module.css';
+import Dashboard from '../../components/Dashboard/Dashboard';
 
 const Home = () => {
 	return (
-		<div className={styles.home}>
- 			Home works!
- 		</div>
+		<Dashboard/>
 	);
 };
 

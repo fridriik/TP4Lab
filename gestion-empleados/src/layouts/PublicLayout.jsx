@@ -1,12 +1,12 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
+import styles from "./PublicLayout.module.css";
 
 const PublicLayout = () => {
+
   return (
-    <div className="public-layout">
+    <div className={styles.layout}>
       <header></header>
-      <main>
-        <Outlet />
-      </main>
+      <main className={styles.main}><Outlet /></main>
       <footer></footer>
     </div>
   );
