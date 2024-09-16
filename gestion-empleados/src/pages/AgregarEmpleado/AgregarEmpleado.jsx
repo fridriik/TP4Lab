@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  addEmpleado,
-  fetchEmpleado,
-  fetchEmpleadoById,
-} from "../../services/EmpleadoService";
+import { useNavigate } from "react-router-dom";
+import { addEmpleado } from "../../services/EmpleadoService";
 import styles from "./AgregarEmpleado.module.css";
-import Input from "./../../components/Input/Input";
+import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
+import useForm from "../../hooks/useForm";
 
 const AgregarEmpleado = () => {
-  const [empleados, setEmpleados] = useState([]);
-  const [newEmpleado, setNewEmpleado] = useState({
+  const navigate = useNavigate();
+  const { values, errors, handleChange, handleSubmit, reset, lastId } = useForm({
     nroDocumento: "",
     nombre: "",
     apellido: "",
@@ -19,126 +15,83 @@ const AgregarEmpleado = () => {
     fechaNacimiento: "",
     fechaIngreso: "",
   });
-  const navigate = useNavigate();
-  const { id } = useParams();
 
-  useEffect(() => {
-    const getEmpleado = async () => {
-      try {
-        const data = await fetchEmpleado();
-        setEmpleados(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getEmpleado();
-  }, []);
-
-  useEffect(() => {
-    if (id) {
-      const getEmpleadoById = async () => {
-        try {
-          await fetchEmpleadoById(id);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      getEmpleadoById();
-    }
-  }, [id]);
-
-  const handlePostEmpleado = async (e) => {
-    e.preventDefault();
-
-    if (!/^\d{7,8}$/.test(newEmpleado.nroDocumento)) {
-      alert("El número de documento debe tener entre 7 y 8 dígitos.");
-      return;
-    }
-
-    const newId =
-      empleados.length > 0
-        ? (
-            Math.max(...empleados.map((emp) => parseInt(emp.id, 10))) + 1
-          ).toString()
-        : "1";
-
+  const onSubmit = async () => {
     try {
-      const empleadoCreado = await addEmpleado({ ...newEmpleado, id: newId });
-      setEmpleados([...empleados, empleadoCreado]);
-
-      setNewEmpleado({
-        nroDocumento: "",
-        nombre: "",
-        apellido: "",
-        email: "",
-        fechaNacimiento: "",
-        fechaIngreso: "",
-      });
-
+      const newId = (lastId + 1).toString();
+      const empleadoData = { ...values, id: newId };
+      await addEmpleado(empleadoData);
+    
+      reset();
       navigate("/empleados");
     } catch (error) {
-      console.error(error);
+      console.error("Error agregando empleado", error);
     }
-  };
-
-  const handleChangeNewEmpleado = (e) => {
-    const { name, value } = e.target;
-    setNewEmpleado((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
     <div className={styles.agregarEmpleado}>
       <h1 className={styles.empleado}>Agregar Empleado</h1>
       <div className={styles.containerFormEmpleado}>
-        <form className={styles.formEmpleado} onSubmit={handlePostEmpleado}>
+        <form className={styles.formEmpleado} onSubmit={handleSubmit(onSubmit)}>
           <Input
             type="text"
             name="nroDocumento"
             placeholder="Documento"
-            value={newEmpleado.nroDocumento}
-            onChange={handleChangeNewEmpleado}
+            value={values.nroDocumento}
+            onChange={handleChange}
+            validate={() => errors.nroDocumento}
+            errorMessage={errors.nroDocumento}
             required
           />
           <Input
             type="text"
             name="nombre"
             placeholder="Nombre"
-            value={newEmpleado.nombre}
-            onChange={handleChangeNewEmpleado}
+            value={values.nombre}
+            onChange={handleChange}
+            validate={() => errors.nombre}
+            errorMessage={errors.nombre}
             required
           />
           <Input
             type="text"
             name="apellido"
             placeholder="Apellido"
-            value={newEmpleado.apellido}
-            onChange={handleChangeNewEmpleado}
+            value={values.apellido}
+            onChange={handleChange}
+            validate={() => errors.apellido}
+            errorMessage={errors.apellido}
             required
           />
           <Input
             type="email"
             name="email"
             placeholder="Email"
-            value={newEmpleado.email}
-            onChange={handleChangeNewEmpleado}
+            value={values.email}
+            onChange={handleChange}
+            validate={() => errors.email}
+            errorMessage={errors.email}
             required
           />
           <Input
             type="date"
             name="fechaNacimiento"
             placeholder="Fecha de nacimiento"
-            value={newEmpleado.fechaNacimiento || ""}
-            onChange={handleChangeNewEmpleado}
+            value={values.fechaNacimiento || ''}
+            onChange={handleChange}
+            validate={() => errors.fechaNacimiento}
+            errorMessage={errors.fechaNacimiento}
             required
           />
           <Input
             type="date"
             name="fechaIngreso"
             placeholder="Fecha de ingreso"
-            value={newEmpleado.fechaIngreso || ""}
-            onChange={handleChangeNewEmpleado}
+            value={values.fechaIngreso || ''}
+            onChange={handleChange}
+            validate={() => errors.fechaIngreso}
+            errorMessage={errors.fechaIngreso}
             required
           />
         </form>

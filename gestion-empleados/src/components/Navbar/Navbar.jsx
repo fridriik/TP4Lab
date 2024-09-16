@@ -18,12 +18,14 @@ const Navbar = ({ logout }) => {
           ☰
         </Button>
         <div className={`${styles.links} ${isMenuOpen ? styles.open : ""}`}>
-          <Button to="/home" variant="link">
-            Home
-          </Button>
-          <Button to="/empleados" variant="link">
-            Empleados
-          </Button>
+          <div>
+            <Button to="/home" variant="link">
+              Home
+            </Button>
+            <Button to="/empleados" variant="link">
+              Empleados
+            </Button>
+          </div>
           <Button onClick={logout}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

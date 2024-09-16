@@ -7,7 +7,7 @@ import styles from "./Input.module.css";
 
 const Input = ({
   name,
-  value,
+  value: initialValue,
   onChange,
   placeholder,
   required,
@@ -16,6 +16,7 @@ const Input = ({
   errorMessage,
   ...rest
 }) => {
+  const [value, setValue] = useState(initialValue || "");
   const [touched, setTouched] = useState(false);
   const [error, setError] = useState("");
   const id = name || `input-${Math.random().toString(36).substr(2, 9)}`;
@@ -27,6 +28,7 @@ const Input = ({
         dateFormat: "Y-m-d",
         locale: "es",
         onChange: (selectedDates, dateStr) => {
+          setValue(dateStr);
           onChange({ target: { name, value: dateStr } });
         },
       });
@@ -35,25 +37,38 @@ const Input = ({
 
   const handleBlur = () => {
     setTouched(true);
-    if (validate && !validate(value)) {
-      setError(errorMessage || "Este campo es inválido.");
-    } else {
+    validateInput();
+  };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setValue(value);
+    onChange(e);
+    if (error) {
       setError("");
     }
   };
 
-  const handleChange = (e) => {
-    setError("");
-    onChange(e);
+  const validateInput = () => {
+    if (validate) {
+      const validationError = validate(value);
+      setError(validationError || "");
+    }
   };
+
+  useEffect(() => {
+    if (touched && validate) {
+      validateInput();
+    }
+  }, [value, validate, touched]);
+
+  const shouldFloatLabel = value || touched || error;
 
   return (
     <div className={styles.textInputContainer}>
       <label
         htmlFor={id}
-        className={`${styles.label} ${
-          value || touched ? styles.labelFloat : ""
-        }`}
+        className={`${styles.label} ${shouldFloatLabel ? styles.labelFloat : ""}`}
       >
         {placeholder}
       </label>
@@ -72,7 +87,9 @@ const Input = ({
         {...rest}
       />
 
-      {error && <div className={styles.errorMessage}>{error}</div>}
+      <div className={styles.errorMessage}>
+        {error || errorMessage}
+      </div>
     </div>
   );
 };

@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import useForm from '../../hooks/useForm';  // Importa useForm
 import Input from './../../components/Input/Input';
 import styles from './Login.module.css';
 import Button from '../../components/Button/Button';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    email: '',
+    password: ''
+  });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -18,13 +20,11 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     try {
-      await login(email, password);
+      await login(values.email, values.password);
     } catch (error) {
       console.error('Login failed:', error);
-      setError(error.message);
     }
   };
 
@@ -32,26 +32,27 @@ const Login = () => {
     <div className={styles.container}>
       <h1>LOGIN</h1>
       <p>Bienvenido, ingresa tus credenciales por favor</p>
-      <form onSubmit={handleLogin} className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <Input
           type="email"
-          name={email}
+          name="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={values.email}
+          onChange={handleChange}
           required
         />
+        {errors.email && <p className={styles.error}>{errors.email}</p>}
         <Input
           type="password"
-          name={password}
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={values.password}
+          onChange={handleChange}
           required
         />
+        {errors.password && <p className={styles.error}>{errors.password}</p>}
         <Button type="submit">Entrar</Button>
       </form>
-      {error && <p>{error}</p>}
     </div>
   );
 };

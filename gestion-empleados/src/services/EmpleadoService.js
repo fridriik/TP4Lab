@@ -42,7 +42,6 @@ export const addEmpleado = async (employee) => {
   }
   
   const data = await response.json();
-  console.log('New employee created:', data);
   return data;
 };
 
@@ -60,7 +59,6 @@ export const updateEmpleado = async (id, updatedEmployee) => {
   }
   
   const data = await response.json();
-  console.log('Employee updated successfully:', data);
   return data;
 };
 

@@ -18,7 +18,7 @@
 
 .title {
   font-size: 24px;
-  width: 100%;
+  width: 384px;
 }
 
 .links {
@@ -42,7 +42,7 @@
   padding: 8px;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 768px) {
   .nav {
     flex-direction: column;
     gap: 8px;
