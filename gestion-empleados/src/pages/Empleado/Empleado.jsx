@@ -1,26 +1,18 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  fetchEmpleado,
-  fetchEmpleadoById,
-  addEmpleado
-} from "../../services/EmpleadoService";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
+import { fetchEmpleado, deleteEmpleado } from "../../services/EmpleadoService";
+import styles from "./Empleado.module.css";
+import Modal from "../../components/Modal/Modal";
 
 const Empleado = () => {
   const [empleados, setEmpleados] = useState([]);
-  const [newEmpleado, setNewEmpleado] = useState({
-    nroDocumento: "",
-    nombre: "",
-    apellido: "",
-    email: "",
-    fechaNacimiento: "",
-    fechaIngreso: "",
-  });
+  const [showModal, setShowModal] = useState(false);
+  const [empleadoIdToDelete, setEmpleadoIdToDelete] = useState(null);
   const navigate = useNavigate();
-  const { id } = useParams();
 
   useEffect(() => {
-    const getEmpleado = async () => {
+    const getEmpleados = async () => {
       try {
         const data = await fetchEmpleado();
         setEmpleados(data);
@@ -29,120 +21,80 @@ const Empleado = () => {
       }
     };
 
-    getEmpleado();
+    getEmpleados();
   }, []);
 
-  useEffect(() => {
-    if (id) {
-      const getEmpleadoById = async () => {
-        try {
-          await fetchEmpleadoById(id);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      getEmpleadoById();
-    }
-  }, [id]);
-
-  const handlePostEmpleado = async (e) => {
-    e.preventDefault();
-
-    if (!/^\d{7,8}$/.test(newEmpleado.nroDocumento)) {
-      alert("El número de documento debe tener entre 7 y 8 dígitos.");
-      return;
-    }
-
-    const newId = empleados.length > 0 ? (Math.max(...empleados.map(emp => emp.id)) + 1).toString() : "1";
-
+  const handleDeleteEmpleado = async (id) => {
     try {
-      const empleadoCreado = await addEmpleado({ ...newEmpleado, id: newId });
-      setEmpleados([...empleados, empleadoCreado]);
-      setNewEmpleado({
-        nroDocumento: "",
-        nombre: "",
-        apellido: "",
-        email: "",
-        fechaNacimiento: "",
-        fechaIngreso: "",
-      });
+      await deleteEmpleado(id);
+      setEmpleados(empleados.filter((emp) => emp.id !== id));
+      setShowModal(false);
     } catch (error) {
-      console.error(error);
+      console.error("Error eliminando empleado:", error);
     }
-  };
-
-  const handleChangeNewEmpleado = (e) => {
-    const { name, value } = e.target;
-    setNewEmpleado((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <div>
-      <h1>Empleados</h1>
-        <>
-          <form onSubmit={handlePostEmpleado}>
-          <label htmlFor="nroDocumento">Número de Documento</label>
-            <input
-              type="text"
-              name="nroDocumento"
-              value={newEmpleado.nroDocumento}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="nombre">Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              value={newEmpleado.nombre}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="apellido">Apellido</label>
-            <input
-              type="text"
-              name="apellido"
-              value={newEmpleado.apellido}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="email">E-Mail</label>
-            <input
-              type="email"
-              name="email"
-              value={newEmpleado.email}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="fechaNacimiento">Nacimiento</label>
-            <input
-              type="date"
-              name="fechaNacimiento"
-              value={newEmpleado.fechaNacimiento}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="fechaIngreso">Ingreso</label>
-            <input
-              type="date"
-              name="fechaIngreso"
-              value={newEmpleado.fechaIngreso}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <button type="submit">Agregar Empleado</button>
-          </form>
-          <ul>
-            {empleados.map((empleado) => (
-              <li key={empleado.id}>
-                {empleado.nombre} {empleado.apellido} - {empleado.email}
-                <button onClick={() => navigate(`/empleados/${empleado.id}`)}>
-                  Ver empleado
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
+    <div className={styles.empleado}>
+      <div className={styles.title}>
+        <h1>Empleados</h1>
+        <Button onClick={() => navigate("/empleados/agregar")}>
+          Agregar Empleado
+        </Button>
+      </div>
+
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Nro Documento</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Fecha de Ingreso</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {empleados.map((empleado) => (
+            <tr key={empleado.id}>
+              <td data-th="Nro Documento">{empleado.nroDocumento}</td>
+              <td data-th="Nombre">{empleado.nombre}</td>
+              <td data-th="Apellido">{empleado.apellido}</td>
+              <td data-th="Email">{empleado.email}</td>
+              <td data-th="Fecha de Nacimiento">{empleado.fechaNacimiento}</td>
+              <td data-th="Fecha de Ingreso">{empleado.fechaIngreso}</td>
+              <td data-th="Acciones">
+                <Button onClick={() => navigate(`/empleados/${empleado.id}`)}>
+                  Actualizar
+                </Button>
+                <Button
+                  onClick={() => {
+                    setEmpleadoIdToDelete(empleado.id);
+                    setShowModal(true);
+                  }}
+                >
+                  Eliminar
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {showModal && (
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title="Eliminar empleado"
+          content="¿Estás seguro de que deseas eliminar este empleado?"
+          onPrimaryAction={() => handleDeleteEmpleado(empleadoIdToDelete)}
+          primaryButtonText="Eliminar"
+          secondaryButtonText="Cancelar"
+          primaryVariant="danger"
+          secondaryVariant="secondary"
+        />
+      )}
     </div>
   );
 };

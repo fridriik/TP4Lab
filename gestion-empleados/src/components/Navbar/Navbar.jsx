@@ -7,7 +7,7 @@ const Navbar = ({ onToggleSidebar }) => {
       <button className={styles.hamburger} onClick={onToggleSidebar}>
         ☰
       </button>
-      <h1 className={styles.title}>Dashboard</h1>
+      <h1 className={styles.title}>Gestión de empleados</h1>
     </header>
   );
 };

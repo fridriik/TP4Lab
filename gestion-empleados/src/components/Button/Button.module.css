@@ -4,8 +4,6 @@
   cursor: pointer;
   border: 1px solid var(--bg-color);
   border-radius: 8px;
-  color: var(--bg-color);
-  background-color: var(--text-color);
   font-weight: 900;
   line-height: normal;
   margin: 0;
@@ -20,7 +18,28 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.button:hover {
+.primary {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+}
+
+.primary:hover{
   color: var(--text-color);
   background: var(--accent-color);
 }
+
+.secondary {
+  background-color: gray;
+  color: var(--bg-color);
+}
+
+.danger {
+  background-color: red;
+  color: var(--bg-color);
+}
+
+.success {
+  background-color: green;
+  color: var(--bg-color);
+}
+

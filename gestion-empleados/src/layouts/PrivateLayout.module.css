@@ -1,11 +1,16 @@
 .layout {
-    display: flex;
+  display: flex;
+  justify-content: center;
+}
+
+.main {
+  display: flex;
+  margin-top: 64px;
+  padding: 24px;
+}
+
+@media (min-width: 480px) {
+  .container {
+    width: auto;
   }
-  
-  .main {
-    margin-left: 240px;
-    margin-top: 64px;
-    padding: 20px;
-    width: 100%;
-  }
-  
+}
