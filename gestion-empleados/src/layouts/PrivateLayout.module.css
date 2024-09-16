@@ -1,11 +1,16 @@
 .layout {
   display: flex;
   justify-content: center;
+  background: url("../assets/background.webp");
+  min-height: 100vh; /* Ocupa al menos el alto del viewport */
+  background-repeat: no-repeat; /* No repite la imagen, pero puedes cambiar esto a 'repeat-y' si es necesario */
+  background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+  background-position: center top;
 }
 
 .main {
   display: flex;
-  margin-top: 64px;
+  margin-top: 96px;
   padding: 24px;
 }
 

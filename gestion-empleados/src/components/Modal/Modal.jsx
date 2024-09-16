@@ -22,11 +22,11 @@ const Modal = ({
         <div className={styles.modalTitle}>{title}</div>
         <div className={styles.modalContent}>{content}</div>
         <div className={styles.modalActions}>
-          <Button variant={primaryVariant} onClick={onPrimaryAction}>
-            {primaryButtonText}
-          </Button>
           <Button variant={secondaryVariant} onClick={onClose}>
             {secondaryButtonText}
+          </Button>
+          <Button variant={primaryVariant} onClick={onPrimaryAction}>
+            {primaryButtonText}
           </Button>
         </div>
       </div>

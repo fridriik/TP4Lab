@@ -2,12 +2,15 @@
   display: flex;
   flex-direction: column;
   gap: 64px;
+  color: var(--bg-color);
+  width: 92vw;
 }
 
 .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 32px;
 }
 
 .table {
@@ -24,14 +27,45 @@ td {
 }
 
 th {
-  background-color: #f4f4f4;
+  background-color: var(--bg-color);
   font-weight: bold;
+  color: var(--text-color);
 }
 
-@media (max-width: 768px) {
-    .empleado {
-        width: auto;
-    }
+.iconUpdate:hover {
+  color: rgb(43, 0, 255);
+}
+
+.iconDelete:hover {
+  color: var(--danger-color);
+}
+
+.centered {
+  text-align: center;
+}
+
+.acciones{
+  text-align: center;
+}
+
+@media (max-width: 920px) {
+  .empleado {
+    width: 64vw;
+  }
+
+  .title {
+    flex-wrap: wrap;
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-bottom: none;
+  }
+
   .table,
   thead,
   tbody,
@@ -39,7 +73,6 @@ th {
   td,
   tr {
     display: block;
-    width: 100%;
   }
 
   thead {
@@ -48,14 +81,14 @@ th {
 
   tr {
     margin-bottom: 1rem;
-    border-bottom: 2px solid #ddd;
+    border: 1px solid var(--bg-color);
+    border-radius: 8px;
   }
 
   td {
     display: flex;
     justify-content: space-between;
     padding: 12px;
-    border-bottom: 1px solid #ddd;
     text-align: right;
   }
 
