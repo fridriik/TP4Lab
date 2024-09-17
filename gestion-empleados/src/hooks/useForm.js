@@ -27,7 +27,7 @@ const useForm = (initialValues, formType) => {
       newErrors.apellido = validateSurname(values.apellido);
       newErrors.nroDocumento = validateDocument(values.nroDocumento);
       newErrors.fechaNacimiento = validateBirthDate(values.fechaNacimiento);
-      newErrors.fechaIngreso = validateEntryDate(values.fechaIngreso);
+      newErrors.fechaIngreso = validateEntryDate(values.fechaIngreso, values.fechaNacimiento);
     }
     setErrors(newErrors);
     return Object.keys(newErrors).every((key) => !newErrors[key]);
