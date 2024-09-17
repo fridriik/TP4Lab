@@ -37,12 +37,10 @@ export const addEmpleado = async (employee) => {
   });
     
   if (!response.ok) {
-    console.error('Error creating employee');
     throw new Error('Error al crear el empleado');
   }
   
   const data = await response.json();
-  console.log('New employee created:', data);
   return data;
 };
 
@@ -60,7 +58,6 @@ export const updateEmpleado = async (id, updatedEmployee) => {
   }
   
   const data = await response.json();
-  console.log('Employee updated successfully:', data);
   return data;
 };
 

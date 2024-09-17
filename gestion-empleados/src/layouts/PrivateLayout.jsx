@@ -1,22 +1,23 @@
-import { Outlet, Link } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { Navbar } from "../components/Navbar";
+import { Spinner } from "../components/Spinner";
+import styles from "./PrivateLayout.module.css";
+import { useAuth } from "../hooks/useAuth";
 
 const PrivateLayout = () => {
   const { logout } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 3000);
+  }, []);
 
   return (
-    <div className="private-layout">
-      <header>
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="/empleados">Empleado</Link>
-          <button onClick={logout}>Logout</button>
-        </nav>
-      </header>
-      <main>
-        <Outlet />
-      </main>
-      <footer>© 2024</footer>
+    <div className={styles.layout}>
+      <Navbar logout={logout} />
+      <main className={styles.main}>{loading ? <Spinner /> : <Outlet />}</main>
     </div>
   );
 };
