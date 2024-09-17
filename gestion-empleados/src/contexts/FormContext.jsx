@@ -89,17 +89,29 @@ export const FormProvider = ({ children }) => {
     return null;
   };
 
-  const validateEntryDate = (entryDate) => {
+  const validateEntryDate = (entryDate, birthDate) => {
     if (!entryDate) return 'La fecha de ingreso es requerida.';
+    if (!birthDate) return 'La fecha de nacimiento es requerida.';
+    
     const today = new Date();
     const entryDateObj = new Date(entryDate);
-
+    const birthDateObj = new Date(birthDate);
+  
     if (isNaN(entryDateObj.getTime())) return 'Fecha de ingreso inválida.';
-
+    if (isNaN(birthDateObj.getTime())) return 'Fecha de nacimiento inválida.';
+  
     if (entryDateObj > today) return 'La fecha de ingreso no puede ser posterior al día de la fecha.';
-
+  
+    const ageAtEntry = entryDateObj.getFullYear() - birthDateObj.getFullYear();
+    const monthDiff = entryDateObj.getMonth() - birthDateObj.getMonth();
+    const dayDiff = entryDateObj.getDate() - birthDateObj.getDate();
+    if (ageAtEntry < 18 || (ageAtEntry === 18 && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)))) {
+      return 'La fecha de ingreso no puede ser antes de que el empleado tenga 18 años.';
+    }
+  
     return null;
   };
+  
 
   const value = {
     empleados,
