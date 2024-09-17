@@ -9,7 +9,7 @@ Sigue estos pasos para configurar el proyecto en tu máquina local:
 1. Clona el repositorio:
 
    ```
-   git clone [URL_DEL_REPOSITORIO]
+   git clone https://github.com/fridriik/TP4Lab.git
    ```
 2. Navega al directorio del proyecto:
 
@@ -29,7 +29,7 @@ Para ejecutar el proyecto, necesitas iniciar tanto el servidor de desarrollo de 
 1. Inicia json-server (simula la base de datos):
 
    ```
-   npm run start
+   npm start
    ```
 
    Esto iniciará json-server en el puerto 3000.
@@ -41,25 +41,27 @@ Para ejecutar el proyecto, necesitas iniciar tanto el servidor de desarrollo de 
 
    Esto iniciará la aplicación React en el puerto que Vite asigne (normalmente 5173).
 3. Abre tu navegador y ve a `http://localhost:5173` (o el puerto que Vite te indique en la consola).
+4. Abre tu navegador y ve a `http://localhost:3000` o revisa el archivo `db.json` y busca en `"auth"` para ver usuarios que puedan loguearse.
 
 ## Estructura del proyecto
 
-- `src/`: Contiene el código fuente de la aplicación React.
+- `src/`: Contiene el código fuente de la aplicación.
 - `db.json`: Archivo utilizado por json-server como base de datos simulada.
+- `db_backup.json`: Archivo utilizado por json-server como backup para recargar mediante un script si la db queda sin empleados luego de actualizar la página (F5).
 
 ## Scripts disponibles
 
 - `npm run dev`: Inicia el servidor de desarrollo de Vite.
-- `npm run start`: Inicia json-server.
+- `npm start`: Inicia json-server.
 
 ## Notas adicionales
 
-- Asegúrate de que los puertos 3000 (para json-server) y 5173 (o el que use Vite) estén disponibles en tu sistema.
-- Si necesitas modificar la configuración de json-server, puedes hacerlo en el archivo `package.json` bajo el script `"start"`.
+- Fijate que los puertos 3000 (para json-server) y 5173 (o el que use Vite) estén disponibles.
+- Si necesitas modificar la configuración de json-server, podes hacerlo en los archivos `startServer.mjs` y `monitorServer.js`.
 
 ## Problemas comunes
 
-Si encuentras algún problema al ejecutar el proyecto, asegúrate de:
+Si encontrás algún problema al ejecutar el proyecto, fijate de:
 
 1. Tener todas las dependencias instaladas correctamente.
 2. No tener conflictos de puertos con otras aplicaciones.
