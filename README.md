@@ -46,7 +46,6 @@ Para ejecutar el proyecto, necesitas iniciar tanto el servidor de desarrollo de 
 
 - `src/`: Contiene el código fuente de la aplicación React.
 - `db.json`: Archivo utilizado por json-server como base de datos simulada.
-- `vite.config.js`: Configuración de Vite.
 
 ## Scripts disponibles
 

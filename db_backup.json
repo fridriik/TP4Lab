@@ -134,24 +134,6 @@
       "email": "nramirez@gmail.com",
       "fechaNacimiento": "1990-02-09",
       "fechaIngreso": "2024-01-15"
-    },
-    {
-      "id": "16",
-      "nroDocumento": "12121212",
-      "nombre": "Norma",
-      "apellido": "Aman",
-      "email": "nor@am.com",
-      "fechaNacimiento": "1979-09-01",
-      "fechaIngreso": "2024-09-01"
-    },
-    {
-      "id": "17",
-      "nroDocumento": "12121213",
-      "nombre": "Norma",
-      "apellido": "Aman",
-      "email": "nor@amma.com",
-      "fechaNacimiento": "1991-09-01",
-      "fechaIngreso": "2010-08-31"
     }
   ],
   "auth": [
