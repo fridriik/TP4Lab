@@ -1,26 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  fetchEmpleado,
-  fetchEmpleadoById,
-  addEmpleado
-} from "../../services/EmpleadoService";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/Button/Button";
+import { fetchEmpleado } from "../../services/EmpleadoService";
+import styles from "./Empleado.module.css";
 
 const Empleado = () => {
   const [empleados, setEmpleados] = useState([]);
-  const [newEmpleado, setNewEmpleado] = useState({
-    nroDocumento: "",
-    nombre: "",
-    apellido: "",
-    email: "",
-    fechaNacimiento: "",
-    fechaIngreso: "",
-  });
   const navigate = useNavigate();
-  const { id } = useParams();
 
   useEffect(() => {
-    const getEmpleado = async () => {
+    const getEmpleados = async () => {
       try {
         const data = await fetchEmpleado();
         setEmpleados(data);
@@ -29,120 +18,54 @@ const Empleado = () => {
       }
     };
 
-    getEmpleado();
+    getEmpleados();
   }, []);
 
-  useEffect(() => {
-    if (id) {
-      const getEmpleadoById = async () => {
-        try {
-          await fetchEmpleadoById(id);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      getEmpleadoById();
-    }
-  }, [id]);
-
-  const handlePostEmpleado = async (e) => {
-    e.preventDefault();
-
-    if (!/^\d{7,8}$/.test(newEmpleado.nroDocumento)) {
-      alert("El número de documento debe tener entre 7 y 8 dígitos.");
-      return;
-    }
-
-    const newId = empleados.length > 0 ? (Math.max(...empleados.map(emp => emp.id)) + 1).toString() : "1";
-
-    try {
-      const empleadoCreado = await addEmpleado({ ...newEmpleado, id: newId });
-      setEmpleados([...empleados, empleadoCreado]);
-      setNewEmpleado({
-        nroDocumento: "",
-        nombre: "",
-        apellido: "",
-        email: "",
-        fechaNacimiento: "",
-        fechaIngreso: "",
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleChangeNewEmpleado = (e) => {
-    const { name, value } = e.target;
-    setNewEmpleado((prev) => ({ ...prev, [name]: value }));
-  };
-
   return (
-    <div>
-      <h1>Empleados</h1>
-        <>
-          <form onSubmit={handlePostEmpleado}>
-          <label htmlFor="nroDocumento">Número de Documento</label>
-            <input
-              type="text"
-              name="nroDocumento"
-              value={newEmpleado.nroDocumento}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="nombre">Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              value={newEmpleado.nombre}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="apellido">Apellido</label>
-            <input
-              type="text"
-              name="apellido"
-              value={newEmpleado.apellido}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="email">E-Mail</label>
-            <input
-              type="email"
-              name="email"
-              value={newEmpleado.email}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="fechaNacimiento">Nacimiento</label>
-            <input
-              type="date"
-              name="fechaNacimiento"
-              value={newEmpleado.fechaNacimiento}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <label htmlFor="fechaIngreso">Ingreso</label>
-            <input
-              type="date"
-              name="fechaIngreso"
-              value={newEmpleado.fechaIngreso}
-              onChange={handleChangeNewEmpleado}
-              required
-            />
-            <button type="submit">Agregar Empleado</button>
-          </form>
-          <ul>
-            {empleados.map((empleado) => (
-              <li key={empleado.id}>
-                {empleado.nombre} {empleado.apellido} - {empleado.email}
-                <button onClick={() => navigate(`/empleados/${empleado.id}`)}>
-                  Ver empleado
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
+    <div className={styles.empleado}>
+      <div className={styles.title}>
+        <h1>Empleados</h1>
+        <Button onClick={() => navigate("/empleados/agregar")}>
+          Agregar Empleado
+        </Button>
+      </div>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th className={styles.centered}>Nombre</th>
+            <th className={styles.centered}>Apellido</th>
+            <th className={styles.centered}>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {empleados.map((empleado) => (
+            <tr key={empleado.id}>
+              <td className={styles.centered} data-th="Nombre">{empleado.nombre}</td>
+              <td className={styles.centered} data-th="Apellido">{empleado.apellido}</td>
+              <td className={styles.centered} data-th="Email">{empleado.email}</td>
+              <td className={styles.centered}>
+                <Button onClick={() => navigate(`/empleados/${empleado.id}`)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

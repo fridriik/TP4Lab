@@ -1,11 +1,21 @@
 .layout {
-    display: flex;
+  display: flex;
+  justify-content: center;
+  background: url("../assets/background.webp");
+  min-height: 100vh; 
+  background-repeat: no-repeat; 
+  background-size: cover;
+  background-position: center top;
+}
+
+.main {
+  display: flex;
+  margin-top: 112px;
+  padding: 24px;
+}
+
+@media (min-width: 480px) {
+  .container {
+    width: auto;
   }
-  
-  .main {
-    margin-left: 240px;
-    margin-top: 64px;
-    padding: 20px;
-    width: 100%;
-  }
-  
+}

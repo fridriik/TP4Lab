@@ -1,33 +1,68 @@
 .textInputContainer {
   margin-bottom: 16px;
+  position: relative;
+  width: 240px;
+}
+
+.inputWrapper {
+  position: relative;
 }
 
 .label {
-  display: block;
-  margin-bottom: 8px;
+  position: absolute;
+  top: 45%;
+  left: 8px;
+  transform: translateY(-50%);
   font-weight: bold;
+  font-family: "Urbanist", sans-serif;
+  color: var(--color-accent);
+  pointer-events: none;
+  transition: all 0.2s ease;
+  padding: 0 4px;
+}
+
+.labelFloat {
+  top: -8px;
+  left: 0px;
+  font-size: 12px;
+  color: var(--color-dark);
 }
 
 .input {
   font-family: "Urbanist", sans-serif;
-  background-color: transparent;
-  border: 1px solid var(--accent-color);
+  background-color: var(--color-light);
+  border: 1px solid var(--color-accent);
   border-radius: 8px;
   appearance: none;
   box-sizing: border-box;
-  color: var(--text-color);
+  color: var(--color-dark);
   display: inline-block;
-  line-height: normal;
   margin: 0;
-  min-height: 32px;
+  min-height: 24px;
   min-width: 0;
   outline: none;
-  padding: 16px 24px;
-  text-decoration: none;
-  transition: all 300ms cubic-bezier(0.15, 0.5, 0.15, 0.5);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+  padding: 12px 16px 8px;
   width: 100%;
-  will-change: transform;
+  transition: all 300ms cubic-bezier(0.15, 0.5, 0.15, 0.5);
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+}
+
+.inputError {
+  border-color: var(--color-danger);
+}
+
+.inputDisabled {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+.errorMessage {
+  color: var(--color-danger);
+  font-size: 12px;
+  margin-top: 4px;
+  left: 8px;
+  text-align: justify;
 }

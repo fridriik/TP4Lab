@@ -1,3 +1,92 @@
 .empleado {
-  
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  color: var(--color-light);
+  width: 80vw;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: var(--color-light);
+  font-weight: bold;
+  color: var(--color-dark);
+}
+
+.centered {
+  text-align: center;
+}
+
+.acciones{
+  text-align: center;
+}
+
+@media (max-width: 920px) {
+  .empleado {
+    width: 64vw;
+  }
+
+  .title {
+    flex-wrap: wrap;
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-bottom: none;
+  }
+
+  .table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-light);
+    border-radius: 8px;
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    text-align: right;
+  }
+
+  td::before {
+    content: attr(data-th);
+    font-weight: bold;
+    text-align: left;
+  }
 }
