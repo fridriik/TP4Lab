@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useForm from '../../hooks/useForm';
 import { useAuth } from '../../hooks/useAuth';
-import useForm from '../../hooks/useForm';  // Importa useForm
 import Input from './../../components/Input/Input';
-import styles from './Login.module.css';
 import Button from '../../components/Button/Button';
+import styles from './Login.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
-  const { values, errors, handleChange, handleSubmit } = useForm({
-    email: '',
-    password: ''
-  });
+  const { values, errors, handleChange, handleSubmit } = useForm(
+    { email: '', password: '' },
+    'login'
+  );
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -24,7 +24,7 @@ const Login = () => {
     try {
       await login(values.email, values.password);
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Login falló:', error);
     }
   };
 

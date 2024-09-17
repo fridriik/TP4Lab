@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { obtenerTokenDelLocalStorage, autenticarUsuario } from "../services/UsuarioService";
+import Spinner from '../components/Spinner/Spinner';
 
 const AuthContext = createContext();
 
@@ -13,8 +14,6 @@ export const AuthProvider = ({ children }) => {
       const token = obtenerTokenDelLocalStorage();
       if (token) {
         setIsAuthenticated(true);
-      } else {
-        console.log('No hay token en localStorage.');
       }
       setLoading(false);
     };
@@ -33,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   return (

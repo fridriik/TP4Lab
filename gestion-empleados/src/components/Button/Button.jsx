@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import styles from "./Button.module.css";
 import { Link } from "react-router-dom";
 
-const Button = ({ children, type = "button", onClick, to, variant = "primary", className = "", ...rest }) => {
+const Button = ({ children, type = "button", onClick, to, variant = "default", className = "", ...rest }) => {
   const buttonClass = `${styles.button} ${styles[variant]} ${className}`;
 
   if (to) {
@@ -25,7 +25,7 @@ Button.propTypes = {
   type: PropTypes.string,
   onClick: PropTypes.func,
   to: PropTypes.string, 
-  variant: PropTypes.oneOf(["primary", "secondary", "danger", "success", "link"]),
+  variant: PropTypes.oneOf(["default", "primary", "secondary", "danger", "success", "link"]),
   className: PropTypes.string,
 };
 

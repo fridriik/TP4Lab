@@ -37,7 +37,6 @@ export const addEmpleado = async (employee) => {
   });
     
   if (!response.ok) {
-    console.error('Error creating employee');
     throw new Error('Error al crear el empleado');
   }
   

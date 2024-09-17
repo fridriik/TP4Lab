@@ -1,3 +1,46 @@
-.empleadodata {
-  
+.empleadoData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.empleadoDataFormContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  gap: 16px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.301);
+  background-color: var(--color-container-light);
+  color: var(--color-dark);
+  width: auto;
+}
+
+.empleadoDataForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 16px;
+  justify-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title {
+  color: var(--color-light);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .empleadoDataForm {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

@@ -3,12 +3,12 @@
   display: inline-flex;
   justify-content: center;
   cursor: pointer;
-  border: 1px solid var(--bg-color);
+  border: 1px solid var(--color-light);
   border-radius: 8px;
   font-weight: 900;
   line-height: normal;
   margin: 0;
-  min-width: 0;
+  min-width: 0px;
   outline: none;
   padding: 8px 16px;
   text-align: center;
@@ -16,38 +16,47 @@
   transition-duration: 0.15s;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--color-dark);
+  color: var(--color-light);
 }
 
 .button:hover{
   border-radius: 64px;
 }
 
-.primary, .link {
-  background-color: var(--text-color);
-  color: var(--bg-color);
+.default, .link{
+  background-color: var(--color-dark);
+  color: var(--color-light);
 }
 
-.primary:hover{
-  color: var(--text-color);
-  background: var(--bg-color);
+.default:hover{
+  background-color: var(--color-light);
+  color: var(--color-dark);
 }
 
-.secondary:hover {
-  background-color: var(--text-color);
-  color: var(--bg-color);
+.primary:hover {
+  color: var(--color-light);
+  background: var(--color-primary);
+}
+
+.secondary, .danger{
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}
+
+.secondary:hover{
+  background-color: var(--color-dark);
+  color: var(--color-light);
 }
 
 .danger:hover {
-  background-color: var(--danger-color);
-  color: var(--bg-color);
-  border: 1px solid var(--danger-color);
+  background-color: var(--color-danger);
+  color: var(--color-light);
 }
 
-.success {
-  background-color: green;
-  color: var(--bg-color);
+.success:hover {
+  background-color: var(--color-success);
+  color: var(--color-light);
 }
 
 .link{
@@ -55,7 +64,7 @@
 }
 
 .link:hover {
-  color: var(--text-color);
-  background: var(--bg-color);
+  color: var(--color-dark);
+  background: var(--color-light);
 }
 

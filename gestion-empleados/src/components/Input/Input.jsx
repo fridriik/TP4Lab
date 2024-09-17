@@ -14,6 +14,7 @@ const Input = ({
   type,
   validate,
   errorMessage,
+  disabled,
   ...rest
 }) => {
   const [value, setValue] = useState(initialValue || "");
@@ -53,6 +54,8 @@ const Input = ({
     if (validate) {
       const validationError = validate(value);
       setError(validationError || "");
+    } else {
+      console.error("No se validó");
     }
   };
 
@@ -78,12 +81,13 @@ const Input = ({
         name={name}
         id={id}
         value={value}
-        onChange={handleChange}
+        onChange={!disabled ? handleChange : undefined}
         onBlur={handleBlur}
         onFocus={() => setTouched(true)}
         required={required}
-        className={`${styles.input} ${error ? styles.inputError : ""}`}
+        className={`${styles.input} ${error ? styles.inputError : ""} ${disabled ? styles.inputDisabled : ""}`}
         ref={inputRef}
+        disabled={disabled}
         {...rest}
       />
 
@@ -103,6 +107,7 @@ Input.propTypes = {
   type: PropTypes.string,
   validate: PropTypes.func,
   errorMessage: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default Input;

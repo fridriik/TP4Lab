@@ -1,13 +1,28 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "./../Button/Button";
+import Modal from "./../Modal/Modal";
 import styles from "./Navbar.module.css";
 
 const Navbar = ({ logout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
+  };
+
+  const openLogoutModal = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const closeLogoutModal = () => {
+    setIsLogoutModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    closeLogoutModal();
+    logout();
   };
 
   return (
@@ -26,7 +41,7 @@ const Navbar = ({ logout }) => {
               Empleados
             </Button>
           </div>
-          <Button onClick={logout}>
+          <Button onClick={openLogoutModal}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={styles.iconExit}
@@ -45,6 +60,16 @@ const Navbar = ({ logout }) => {
           </Button>
         </div>
       </nav>
+      <Modal
+        isOpen={isLogoutModalOpen}
+        onClose={closeLogoutModal}
+        title="Confirmar cierre de sesión"
+        content="¿Estás seguro de que deseas cerrar sesión?"
+        onPrimaryAction={handleLogout}
+        primaryButtonText="Cerrar sesión"
+        secondaryButtonText="Cancelar"
+        primaryVariant="danger"
+      />
     </header>
   );
 };

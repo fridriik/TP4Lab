@@ -6,15 +6,12 @@ const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
   const [empleados, setEmpleados] = useState([]);
-  const [lastId, setLastId] = useState(0);
 
   useEffect(() => {
     const fetchAndSetEmpleados = async () => {
       try {
         const empleadosData = await fetchEmpleado();
         setEmpleados(empleadosData);
-        const maxId = empleadosData.reduce((max, emp) => Math.max(max, parseInt(emp.id, 10)), 0);
-        setLastId(maxId);
       } catch (error) {
         console.error('Error cargando empleados:', error);
       }
@@ -23,16 +20,24 @@ export const FormProvider = ({ children }) => {
     fetchAndSetEmpleados();
   }, []);
 
-  const validateEmail = (email) => {
+  const validateEmailEmpleado = (email) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (!email) return 'El email es requerido.';
     if (!emailRegex.test(email)) return 'Email inválido.';
-
+  
     const emailExists = empleados.some((empleado) => empleado.email === email);
     if (emailExists) return 'Ya existe un empleado con el email ingresado.';
-
+  
     return null;
   };
+  
+  const validateEmailLogin = (emailLogin) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailLogin) return 'El email es requerido.';
+    if (!emailRegex.test(emailLogin)) return 'Email inválido.';  
+    return null;
+  };
+  
 
   const validatePassword = (password) => {
     if (!password) return 'La contraseña es requerida.';
@@ -98,9 +103,9 @@ export const FormProvider = ({ children }) => {
 
   const value = {
     empleados,
-    lastId,
-    validateEmail,
+    validateEmailLogin,
     validatePassword,
+    validateEmailEmpleado,
     validateName,
     validateSurname,
     validateDocument,

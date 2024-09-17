@@ -9,12 +9,10 @@ const PrivateLayout = () => {
   const { logout } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  //para testing del spinner
   useEffect(() => {
     setLoading(true);
     setTimeout(() => setLoading(false), 3000);
   }, []);
-
 
   return (
     <div className={styles.layout}>

@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 64px;
-  color: var(--bg-color);
-  width: 92vw;
+  color: var(--color-light);
+  width: 80vw;
 }
 
 .title {
@@ -27,17 +27,9 @@ td {
 }
 
 th {
-  background-color: var(--bg-color);
+  background-color: var(--color-light);
   font-weight: bold;
-  color: var(--text-color);
-}
-
-.iconUpdate:hover {
-  color: rgb(43, 0, 255);
-}
-
-.iconDelete:hover {
-  color: var(--danger-color);
+  color: var(--color-dark);
 }
 
 .centered {
@@ -81,7 +73,7 @@ th {
 
   tr {
     margin-bottom: 1rem;
-    border: 1px solid var(--bg-color);
+    border: 1px solid var(--color-light);
     border-radius: 8px;
   }
 

@@ -1,16 +1,13 @@
 :root {
   font-family: "Urbanist", sans-serif;
-
-  --bg-text-color-light: #f6e9da;
-  --bg-text-color-dark: #282015;
-  --cont-dark-color: #202020;
-  --cont-light-color: #f7efe6;
-  --danger-color: #ff3030;
-  --confirm-color: #30ff30;
-  --accent-color: #c7bcaf;
-  --bg-color: var(--bg-text-color-light);
-  --text-color: var(--bg-text-color-dark);
-  --container-color: var(--cont-light-color);
+  --color-light: #f6e9da;
+  --color-dark: #282015;
+  --color-container-dark: #202020;
+  --color-container-light: #fffdfa;
+  --color-primary: #42498e;
+  --color-danger: #f4384b;
+  --color-success: #588f58;
+  --color-accent: #DDCA7D;
 }
 
 h1 {
@@ -46,5 +43,5 @@ button {
 }
 
 body {
-  background-color: var(--text-color);
+  background-color: var(--color-dark);
 }

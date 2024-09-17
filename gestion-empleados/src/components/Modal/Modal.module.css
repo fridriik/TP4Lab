@@ -24,8 +24,8 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.301);
-  background-color: var(--container-color);
-  color: var(--bg-text-color-dark);
+  background-color: var(--color-container-light);
+  color: var(--color-dark);
 }
 
 .modalTitle {
