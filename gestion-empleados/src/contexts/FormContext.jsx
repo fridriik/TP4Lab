@@ -6,6 +6,7 @@ const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
   const [empleados, setEmpleados] = useState([]);
+  const [currentEmployeeId, setCurrentEmployeeId] = useState(null);
 
   useEffect(() => {
     const fetchAndSetEmpleados = async () => {
@@ -24,20 +25,40 @@ export const FormProvider = ({ children }) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (!email) return 'El email es requerido.';
     if (!emailRegex.test(email)) return 'Email inválido.';
-  
-    const emailExists = empleados.some((empleado) => empleado.email === email);
-    if (emailExists) return 'Ya existe un empleado con el email ingresado.';
-  
+    
+    if (currentEmployeeId) {
+      const emailExists = empleados.some((empleado) => empleado.email === email && empleado.id !== currentEmployeeId);
+      if (emailExists) return 'Ya existe un empleado con el email ingresado.';
+    } else {
+      const emailExists = empleados.some((empleado) => empleado.email === email);
+      if (emailExists) return 'Ya existe un empleado con el email ingresado.';
+    }
+    
     return null;
   };
-  
+
+  const validateDocument = (nroDocumento) => {
+    const docRegex = /^[0-9]{7,8}$/;
+    if (!nroDocumento) return 'El documento es requerido.';
+    if (!docRegex.test(nroDocumento)) return 'El documento debe tener entre 7 y 8 dígitos, sin letras ni símbolos.';
+    
+    if (currentEmployeeId) {
+      const documentExists = empleados.some((empleado) => empleado.nroDocumento === nroDocumento && empleado.id !== currentEmployeeId);
+      if (documentExists) return 'Ya existe un empleado con el documento ingresado.';
+    } else {
+      const documentExists = empleados.some((empleado) => empleado.nroDocumento === nroDocumento);
+      if (documentExists) return 'Ya existe un empleado con el documento ingresado.';
+    }
+    
+    return null;
+  };
+
   const validateEmailLogin = (emailLogin) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (!emailLogin) return 'El email es requerido.';
-    if (!emailRegex.test(emailLogin)) return 'Email inválido.';  
+    if (!emailRegex.test(emailLogin)) return 'Email inválido.';
     return null;
   };
-  
 
   const validatePassword = (password) => {
     if (!password) return 'La contraseña es requerida.';
@@ -57,16 +78,6 @@ export const FormProvider = ({ children }) => {
     const symbolsRegex = /[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/;
     if (symbolsRegex.test(surname)) return 'El apellido no puede contener números o símbolos especiales.';
     if (surname.length < 2 || surname.length > 30) return 'El apellido debe tener entre 2 y 30 caracteres.';
-    return null;
-  };
-
-  const validateDocument = (nroDocumento) => {
-    const docRegex = /^[0-9]{7,8}$/;
-    if (!nroDocumento) return 'El documento es requerido.';
-    if (!docRegex.test(nroDocumento)) return 'El documento debe tener entre 7 y 8 dígitos, sin letras ni símbolos.';
-
-    const documentExists = empleados.some((empleado) => empleado.nroDocumento === nroDocumento);
-    if (documentExists) return 'Ya existe un empleado con el documento ingresado.';
     return null;
   };
 
@@ -111,10 +122,11 @@ export const FormProvider = ({ children }) => {
   
     return null;
   };
-  
 
   const value = {
     empleados,
+    currentEmployeeId,
+    setCurrentEmployeeId, 
     validateEmailLogin,
     validatePassword,
     validateEmailEmpleado,

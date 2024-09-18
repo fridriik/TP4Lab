@@ -16,7 +16,7 @@ const AgregarEmpleado = () => {
     email: "",
     fechaNacimiento: "",
     fechaIngreso: "",
-  }, 'empleado');
+  }, 'empleado', false, null);
 
   useEffect(() => {
     const fetchLastId = async () => {
@@ -41,7 +41,6 @@ const AgregarEmpleado = () => {
 
   const onSubmit = async () => {
     if (lastId === null) {
-      console.error('lastId no está definido');
       return;
     }
 

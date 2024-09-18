@@ -8,6 +8,7 @@ import {
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
+import useForm from "../../hooks/useForm";
 import styles from "./EmpleadoData.module.css";
 
 const EmpleadoData = () => {
@@ -16,20 +17,44 @@ const EmpleadoData = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const initialValues = {
+    nroDocumento: "",
+    nombre: "",
+    apellido: "",
+    email: "",
+    fechaNacimiento: "",
+    fechaIngreso: "",
+  };
+
+  const { values, errors, handleChange, handleSubmit, reset } = useForm(
+    initialValues,
+    "empleado",
+    empleado
+  );
 
   useEffect(() => {
     const getEmpleado = async () => {
       try {
         const data = await fetchEmpleadoById(id);
         setEmpleado(data);
+        reset();
+        Object.keys(data).forEach((key) => {
+          handleChange({ target: { name: key, value: data[key] } });
+        });
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching empleado:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    getEmpleado();
-  }, [id]);
+    if (loading) {
+      getEmpleado();
+    }
+  }, [id, loading, handleChange, reset]);
 
   const handleDeleteEmpleado = async () => {
     try {
@@ -44,7 +69,7 @@ const EmpleadoData = () => {
 
   const handleUpdateEmpleado = async () => {
     try {
-      await updateEmpleado(id, empleado);
+      await updateEmpleado(id, values);
       setShowUpdateModal(false);
       alert("Empleado actualizado con éxito");
       setIsEditing(false);
@@ -53,17 +78,18 @@ const EmpleadoData = () => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEmpleado((prev) => ({ ...prev, [name]: value }));
+  const onSubmit = () => {
+    if (Object.keys(errors).length === 0) {
+      setShowUpdateModal(true);
+    }
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setShowUpdateModal(true);
+  const handleCancelEdit = (e) => {
+    e.preventDefault(); 
+    window.location.reload();
   };
 
-  if (!empleado) {
+  if (loading) {
     return <p>Loading...</p>;
   }
 
@@ -71,123 +97,89 @@ const EmpleadoData = () => {
     <div className={styles.empleadoData}>
       <h1 className={styles.title}>Detalles del Empleado</h1>
 
-      {!isEditing ? (
-        <div className={styles.empleadoDataFormContainer}>
+      <div className={styles.empleadoDataFormContainer}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.empleadoDataForm}>
             <Input
               type="text"
               name="nroDocumento"
-              value={empleado.nroDocumento}
+              value={values.nroDocumento}
               onChange={handleChange}
               placeholder="Documento"
-              disabled
+              disabled={!isEditing}
+              validate={() => errors.nroDocumento}
+              errorMessage={errors.nroDocumento}
             />
             <Input
               type="text"
               name="nombre"
-              value={empleado.nombre}
+              value={values.nombre}
               onChange={handleChange}
               placeholder="Nombre"
-              disabled
+              disabled={!isEditing}
+              validate={() => errors.nombre}
+              errorMessage={errors.nombre}
             />
             <Input
               type="text"
               name="apellido"
-              value={empleado.apellido}
+              value={values.apellido}
               onChange={handleChange}
               placeholder="Apellido"
-              disabled
+              disabled={!isEditing}
+              validate={() => errors.apellido}
+              errorMessage={errors.apellido}
             />
             <Input
               type="email"
               name="email"
-              value={empleado.email}
+              value={values.email}
               onChange={handleChange}
               placeholder="Email"
-              disabled
+              disabled={!isEditing}
+              validate={() => errors.email}
+              errorMessage={errors.email}
             />
             <Input
               type="date"
               name="fechaNacimiento"
-              value={empleado.fechaNacimiento}
+              value={values.fechaNacimiento}
               onChange={handleChange}
               placeholder="Fecha de Nacimiento"
-              disabled
+              disabled={!isEditing}
+              validate={() => errors.fechaNacimiento}
+              errorMessage={errors.fechaNacimiento}
             />
             <Input
               type="date"
               name="fechaIngreso"
-              value={empleado.fechaIngreso}
+              value={values.fechaIngreso}
               onChange={handleChange}
               placeholder="Fecha de Ingreso"
-              disabled
+              disabled={!isEditing}
+              validate={() => errors.fechaIngreso}
+              errorMessage={errors.fechaIngreso}
             />
-            <Button variant="primary" onClick={() => setIsEditing(true)}>Actualizar</Button>
-            <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-              Eliminar
-            </Button>
+            {!isEditing ? (
+              <>
+                <Button type="button" variant="primary" onClick={() => setIsEditing(true)}>Actualizar</Button>
+                <Button type="button" variant="danger" onClick={() => setShowDeleteModal(true)}>Eliminar</Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleCancelEdit} 
+                >
+                  Cancelar
+                </Button>
+                <Button type="submit" variant="success">Actualizar</Button>
+              </>
+            )}
           </div>
-        </div>
-      ) : (
-        <div className={styles.empleadoDataFormContainer}>
-          <form onSubmit={handleFormSubmit}>
-            <div className={styles.empleadoDataForm}>
-              <Input
-                type="text"
-                name="nroDocumento"
-                value={empleado.nroDocumento}
-                onChange={handleChange}
-                placeholder="Documento"
-              />
-              <Input
-                type="text"
-                name="nombre"
-                value={empleado.nombre}
-                onChange={handleChange}
-                placeholder="Nombre"
-              />
-              <Input
-                type="text"
-                name="apellido"
-                value={empleado.apellido}
-                onChange={handleChange}
-                placeholder="Apellido"
-              />
-              <Input
-                type="email"
-                name="email"
-                value={empleado.email}
-                onChange={handleChange}
-                placeholder="Email"
-              />
-              <Input
-                type="date"
-                name="fechaNacimiento"
-                value={empleado.fechaNacimiento}
-                onChange={handleChange}
-                placeholder="Fecha de Nacimiento"
-              />
-              <Input
-                type="date"
-                name="fechaIngreso"
-                value={empleado.fechaIngreso}
-                onChange={handleChange}
-                placeholder="Fecha de Ingreso"
-              />
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancelar
-              </Button>
-              <Button type="submit" variant="success">
-                Actualizar
-              </Button>
-            </div>
-          </form>
-        </div>
-      )}
+        </form>
+      </div>
 
       {showDeleteModal && (
         <Modal
