@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useFormContext from './useFormContext';
 
-const useForm = (initialValues, formType) => {
+const useForm = (initialValues, formType, empleado = null) => {
   const {
     validateEmailLogin,
     validatePassword,
@@ -28,6 +28,15 @@ const useForm = (initialValues, formType) => {
       newErrors.nroDocumento = validateDocument(values.nroDocumento);
       newErrors.fechaNacimiento = validateBirthDate(values.fechaNacimiento);
       newErrors.fechaIngreso = validateEntryDate(values.fechaIngreso, values.fechaNacimiento);
+
+      if (empleado) {
+        if (values.email === empleado.email) {
+          newErrors.email = null; 
+        }
+        if (values.nroDocumento === empleado.nroDocumento) {
+          newErrors.nroDocumento = null;
+        }
+      }
     }
     setErrors(newErrors);
     return Object.keys(newErrors).every((key) => !newErrors[key]);
